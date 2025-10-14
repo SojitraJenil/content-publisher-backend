@@ -10,11 +10,10 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ['https://content-publisher-assessment.vercel.app'];
+const allowedOrigins = [process.env.ALLOWED_ORIGIN];
 
 app.use(cors({
     origin: function (origin, callback) {
-        // allow requests with no origin (like Postman)
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) === -1) {
             const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
@@ -22,7 +21,7 @@ app.use(cors({
         }
         return callback(null, true);
     },
-    credentials: true // <-- important if frontend sends cookies/JWT in headers
+    credentials: true
 }));
 
 app.use(express.json());
@@ -32,6 +31,11 @@ app.use('/api/publications', publicationRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to the API');
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
 export default app;
