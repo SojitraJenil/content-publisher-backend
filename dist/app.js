@@ -13,7 +13,7 @@ dotenv_1.default.config();
 (0, db_1.default)();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: 'https://content-publisher-backend-blfn.onrender.com',
+    origin: 'content-publisher-assessment.vercel.app',
     credentials: true
 }));
 app.use(express_1.default.json());
