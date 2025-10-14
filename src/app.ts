@@ -15,4 +15,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/publications', publicationRoutes);
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the API');
+});
+
 export default app;
