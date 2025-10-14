@@ -9,13 +9,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-
-app.use(cors({
-    origin: 'https://content-publisher-assessment.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
-}));
-
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
