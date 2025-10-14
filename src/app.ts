@@ -10,7 +10,7 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ['https://content-publisher-backend-blfn.onrender.com/api'];
+const allowedOrigins = ['https://content-publisher-assessment.vercel.app'];
 
 app.use(cors({
     origin: function (origin, callback) {
