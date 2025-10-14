@@ -10,18 +10,10 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = ['https://content-publisher-assessment.vercel.app', 'http://localhost:3000'];
-
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin) return callback(null, true); // allow non-browser requests
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true
+    origin: 'https://content-publisher-assessment.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
 }));
 
 app.use(express.json());
