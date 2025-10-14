@@ -10,7 +10,7 @@ connectDB();
 
 const app = express();
 app.use(cors({
-    origin: 'https://content-publisher-backend-blfn.onrender.com',
+    origin: 'content-publisher-assessment.vercel.app',
     credentials: true
 }));
 
