@@ -10,7 +10,7 @@ connectDB();
 
 const app = express();
 app.use(cors({
-    origin: 'content-publisher-assessment.vercel.app',
+    origin: 'https://content-publisher-assessment.vercel.app',
     credentials: true
 }));
 
