@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePublication = exports.updatePublication = exports.createPublication = exports.getPublications = void 0;
+exports.searchPublications = exports.deletePublication = exports.updatePublication = exports.createPublication = exports.getPublications = void 0;
 const Publication_1 = __importDefault(require("../models/Publication"));
 const getPublications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const publications = yield Publication_1.default.find({ user: req.user._id });
@@ -54,3 +54,38 @@ const deletePublication = (req, res) => __awaiter(void 0, void 0, void 0, functi
     res.json({ message: 'Publication deleted' });
 });
 exports.deletePublication = deletePublication;
+const searchPublications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { query, status, sort = 'desc', page = 1, limit = 10 } = req.query;
+        const filter = { user: req.user._id };
+        if (query) {
+            filter.$or = [
+                { title: { $regex: query, $options: 'i' } },
+                { content: { $regex: query, $options: 'i' } },
+            ];
+        }
+        if (status) {
+            filter.status = status;
+        }
+        const pageNum = parseInt(page) || 1;
+        const limitNum = parseInt(limit) || 10;
+        const skip = (pageNum - 1) * limitNum;
+        const sortOrder = sort === 'asc' ? 1 : -1;
+        const publications = yield Publication_1.default.find(filter)
+            .sort({ createdAt: sortOrder })
+            .skip(skip)
+            .limit(limitNum);
+        const total = yield Publication_1.default.countDocuments(filter);
+        res.json({
+            total,
+            page: pageNum,
+            pages: Math.ceil(total / limitNum),
+            results: publications,
+        });
+    }
+    catch (error) {
+        console.error('Search error:', error.message);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+exports.searchPublications = searchPublications;

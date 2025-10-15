@@ -10,7 +10,11 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [process.env.ALLOWED_ORIGIN];
+const allowedOrigins = [
+    process.env.ALLOWED_ORIGIN,
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+].filter(Boolean);
 
 app.use(cors({
     origin: function (origin, callback) {

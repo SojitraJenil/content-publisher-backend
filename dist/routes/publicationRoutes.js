@@ -12,4 +12,5 @@ router.get('/', publicationController_1.getPublications);
 router.post('/', publicationController_1.createPublication);
 router.put('/:id', publicationController_1.updatePublication);
 router.delete('/:id', publicationController_1.deletePublication);
+router.get('/search/filter', authMiddleware_1.protect, publicationController_1.searchPublications);
 exports.default = router;

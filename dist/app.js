@@ -12,10 +12,13 @@ const publicationRoutes_1 = __importDefault(require("./routes/publicationRoutes"
 dotenv_1.default.config();
 (0, db_1.default)();
 const app = (0, express_1.default)();
-const allowedOrigins = ['https://content-publisher-assessment.vercel.app'];
+const allowedOrigins = [
+    process.env.ALLOWED_ORIGIN,
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+].filter(Boolean);
 app.use((0, cors_1.default)({
     origin: function (origin, callback) {
-        // allow requests with no origin (like Postman)
         if (!origin)
             return callback(null, true);
         if (allowedOrigins.indexOf(origin) === -1) {
@@ -24,12 +27,16 @@ app.use((0, cors_1.default)({
         }
         return callback(null, true);
     },
-    credentials: true // <-- important if frontend sends cookies/JWT in headers
+    credentials: true
 }));
 app.use(express_1.default.json());
 app.use('/api/auth', authRoutes_1.default);
 app.use('/api/publications', publicationRoutes_1.default);
 app.get('/', (req, res) => {
     res.send('Welcome to the API');
+});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 exports.default = app;
